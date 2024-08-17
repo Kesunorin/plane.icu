@@ -1,69 +1,177 @@
 <template>
   <el-config-provider namespace="ep">
-    <BaseHeader class="header" />
-    <div class="main-container">
-      <BaseSide class="side" />
-      <div class="main-right-container">
-        <el-scrollbar class="scroll-content" max-height="100vw">
-          <div class="right-box">
-            <div class="content-box">
-              <router-view />
-            </div>
-          </div>
-        </el-scrollbar>
+    <header class="navbar">
+      <div class="navbar-wrapper">
+
+        <div class="header-container">
+          <img src="./assets/menu.svg" class="menu" @click="openMenu">
+          <img src="./assets/logo.webp" class="logo" alt="Logo" />
+          <h3 color="$ep-color-primary" px="4">第一个mt之家</h3>
+        </div>
+
       </div>
+    </header>
+
+    <div class="overlay" v-if="sideOpen" @click="openMenu"></div>
+    <div class="side" :class="sideOpen ? 'side-open' : ''">
+      <el-menu default-active="/" class="side-menu" router="true">
+        <el-menu-item index="/"> <span>首页</span> </el-menu-item>
+        <el-menu-item index="/raidTier"> <span>总力战档线</span> </el-menu-item>
+        <el-menu-item index="/eraidTier"> <span>大决战档线</span> </el-menu-item>
+        <el-menu-item index="/friendSearch"> <span>好友查询</span> </el-menu-item>
+        <el-menu-item index="/raidAnalysis"><span>总力战统计</span></el-menu-item>
+        <el-menu-item index="/about"> <span>关于</span> </el-menu-item>
+      </el-menu>
     </div>
+
+    <div class="main-right-container">
+      <el-scrollbar class="scroll-content">
+        <div class="right-box">
+          <div class="content-box">
+            <router-view />
+          </div>
+        </div>
+      </el-scrollbar>
+    </div>
+
   </el-config-provider>
 </template>
 
-<style>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+
+const sideOpen = ref(false);
+function openMenu() {
+  console.log("sideOpen", sideOpen.value);
+
+  sideOpen.value = !sideOpen.value;
+}
+</script>
+
+
+<style lang="scss">
 #app {
   text-align: center;
   color: var(--ep-text-color-primary);
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    url("assets/background.webp");
+  background: linear-gradient(rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)),
+    url("~/assets/background.webp");
   background-size: cover;
   background-attachment: fixed;
   overflow: hidden;
-  /* Hide scrollbars on the entire page */
   height: 100vh;
-  /* Ensure the body takes full height */
   margin: 0;
-  /* Remove default margin */
+
+  --nav-height: 55px;
 }
 
-.main-container {
-  display: flex;
-  height: calc(100vh - 60px);
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #0009;
+  transition: opacity .5s;
+  z-index: 233;
+}
+
+.side {
+  position: fixed;
+  height: 100%;
+  transition: background-color .2s, opacity .25s, transform .5s cubic-bezier(.19, 1, .22, 1);
+  transform: translate(-100%);
+  padding-top: var(--nav-height);
+
+  @media screen and (min-width:960px) {
+    transform: translate(0);
+  }
+
+  &.side-open {
+    background-color: #fff;
+    transform: translate(0);
+    z-index: 2333;
+    // padding: 48px 0;
+  }
+
+  .side-menu {
+    width: 220px;
+    height: 100%;
+  }
+}
+
+.navbar {
+  width: 100vw;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+
+  .navbar-wrapper {
+    position: relative;
+    border-bottom: 1px solid #4c4d4f;
+    padding: 0 12px 0 24px;
+    background-size: 4px 4px;
+    backdrop-filter: saturate(50%) blur(4px);
+    -webkit-backdrop-filter: saturate(50%) blur(4px);
+    top: 0;
+    display: flex;
+    height: var(--nav-height);
+
+    .header-container {
+      display: flex;
+
+      .menu {
+        width: 45px;
+
+        @media screen and (min-width:960px) {
+          display: none;
+        }
+      }
+
+      .logo {
+        padding: 10px;
+      }
+    }
+
+
+  }
 }
 
 .main-right-container {
   flex: 1;
   overflow-y: auto;
-  /* Enable vertical scroll */
-}
+  padding-top: var(--nav-height);
 
-.right-box {
-  display: flex;
-  justify-content: center;
-  /* 居中对齐子元素（水平） */
-  align-items: center;
-  /* 居中对齐子元素（垂直） */
-  flex: 1;
-}
+  @media screen and (min-width: 960px) {
+    padding-left: 13rem;
+  }
 
-.content-box {
-  width: calc(100vw - 300px);
-  background-color: rgba(255, 255, 255, 0.5);
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  padding: 10px;
-  border-radius: 5px;
-  flex-direction: column;
-  align-items: center;
+  .scroll-content {
+    height: 93vh;
+
+    .right-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+
+      .content-box {
+        width: calc(100vw - 300px);
+        background-color: rgba(255, 255, 255, 0.5);
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        padding: 10px;
+        border-radius: 5px;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+  }
+
+
 }
 </style>
