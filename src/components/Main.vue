@@ -4,21 +4,11 @@
   </div>
   <div class="bottom-info">
     <p>
-      BUG反馈：B站私信&nbsp&nbsp<a
-        href="https://space.bilibili.com/34077070"
-        target="_blank"
-        >上神Hestia</a
-      >
+      BUG反馈：B站私信&nbsp&nbsp<a href="https://space.bilibili.com/34077070" target="_blank">上神Hestia</a>
     </p>
     <p>
-      服务器支持：<a href="https://space.bilibili.com/6690298" target="_blank"
-        >第一个mt</a
-      >
-      &emsp; WEB支持：<a
-        href="https://space.bilibili.com/297972654"
-        target="_blank"
-        >飞龙project</a
-      >
+      服务器支持：<a href="https://space.bilibili.com/6690298" target="_blank">第一个mt</a>
+      &emsp; WEB支持：<a href="https://space.bilibili.com/297972654" target="_blank">飞龙project</a>
     </p>
     <p></p>
   </div>
