@@ -720,16 +720,17 @@ async function fetchRankListChart() {
       }
     );
     const partialListData = partialListResponse.data;
-    if ((partialListData.Data = [])) {
+    if (partialListData.Data.length === 0) {
       ElMessage.error("没有数据!");
+    } else {
+      tableData.value = partialListData.Data.map((item) => ({
+        Rank: item.Rank,
+        BestRankingPoint: Intl.NumberFormat().format(item.BestRankingPoint),
+        Hard: item.Hard,
+        BattleTime: item.BattleTime,
+      }));
+      totalItems.value = partialListResponse.data.TotalCount;
     }
-    tableData.value = partialListData.Data.map((item) => ({
-      Rank: item.Rank,
-      BestRankingPoint: Intl.NumberFormat().format(item.BestRankingPoint),
-      Hard: item.Hard,
-      BattleTime: item.BattleTime,
-    }));
-    totalItems.value = partialListResponse.data.TotalCount;
   }
 }
 

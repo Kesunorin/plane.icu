@@ -449,21 +449,22 @@ async function fetchRankListChart() {
         }
       );
     const partialListData = partialListResponse.data;
-    if ((partialListData.Data = [])) {
+    if (partialListData.Data.length === 0) {
       ElMessage.error("没有数据!");
+    } else {
+      tableData.value = partialListData.Data.map((item) => ({
+        Rank: item.Rank,
+        BestRankingPoint: Intl.NumberFormat().format(item.BestRankingPoint),
+        LightArmor: Intl.NumberFormat().format(
+          item.BossGroup[2].BestRankingPoint
+        ),
+        HeavyArmor: Intl.NumberFormat().format(
+          item.BossGroup[0].BestRankingPoint
+        ),
+        Unarmed: Intl.NumberFormat().format(item.BossGroup[1].BestRankingPoint),
+      }));
+      totalItems.value = partialListResponse.data.TotalCount;
     }
-    tableData.value = partialListData.Data.map((item) => ({
-      Rank: item.Rank,
-      BestRankingPoint: Intl.NumberFormat().format(item.BestRankingPoint),
-      LightArmor: Intl.NumberFormat().format(
-        item.BossGroup[2].BestRankingPoint
-      ),
-      HeavyArmor: Intl.NumberFormat().format(
-        item.BossGroup[0].BestRankingPoint
-      ),
-      Unarmed: Intl.NumberFormat().format(item.BossGroup[1].BestRankingPoint),
-    }));
-    totalItems.value = partialListResponse.data.TotalCount;
   }
 }
 

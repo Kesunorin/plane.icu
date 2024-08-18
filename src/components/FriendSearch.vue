@@ -27,12 +27,30 @@
             </el-row>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询好友码</el-button>
+            <el-button
+              type="primary"
+              @click="onSubmit"
+              v-loading.fullscreen.lock="fullscreenLoading"
+              element-loading-background="rgba(244, 244, 244, 0.8)"
+              element-loading-text="因为是在线查询，需要一点时间"
+              >查询好友码</el-button
+            >
           </el-form-item>
         </el-form>
       </div>
     </div>
     <div class="content-init" v-if="result">
+      <div style="display: flex; padding: 16px">
+        <el-space wrap>
+          <span style="font-size: smaller; font-weight: bold"
+            >好友数量: {{ friendCount }}/30 角色数量:
+            {{ characterCount }} 竞技场排名:{{ arenaRanking }} 总力战排名:{{
+              raidRanking
+            }}
+            大决战排名:{{ eRaidRanking }}</span
+          >
+        </el-space>
+      </div>
       <div v-for="item in tableDataGroupDisplay">
         <el-table
           :data="item"
@@ -446,7 +464,9 @@
 <script lang="ts" setup>
 import axios from "axios";
 import { ref, reactive } from "vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElLoading } from "element-plus";
+
+const fullscreenLoading = ref(false);
 
 const form = reactive({
   server: "TW",
@@ -459,7 +479,11 @@ const EchelonType: { [key: number]: string } = {
   15: "火力演习",
 };
 
-const tableData = ref<FriendSearchResultDisplay[]>([]);
+const friendCount = ref(0);
+const characterCount = ref(0);
+const arenaRanking = ref();
+const raidRanking = ref();
+const eRaidRanking = ref();
 const tableDataGroupDisplay = ref<FriendSearchResultDisplay[][]>();
 
 const equipmentHeaderStyle = ({ row, column, rowIndex, columnIndex }: any) => {
@@ -506,15 +530,21 @@ const serverOptions = ref([
 const result = ref(false);
 
 const onSubmit = async () => {
+  fullscreenLoading.value = true;
   try {
     const friendResponse = await axios.post<friendSearchResponse>(
       "https://bacrawl.diyigemt.com/api/friend/search",
       { server: form.server, friendCode: form.friendCode }
     );
-    if (friendResponse.data.Level == 0) {
+    if (friendResponse.data.Level === 0) {
       result.value = false;
       ElMessage.error("不存在!");
     } else {
+      friendCount.value = friendResponse.data.FriendCount;
+      characterCount.value = friendResponse.data.CharacterCount;
+      arenaRanking.value = friendResponse.data.ArenaRanking;
+      raidRanking.value = friendResponse.data.RaidRanking;
+      eRaidRanking.value = friendResponse.data.EliminateRaidRanking;
       result.value = true;
       const createTableData = (item: any) => ({
         ImgUrl: new URL(`../assets/char/${item.UniqueId}.webp`, import.meta.url)
@@ -566,6 +596,7 @@ const onSubmit = async () => {
   } catch (error) {
     console.error(error);
   }
+  fullscreenLoading.value = false;
 };
 </script>
 

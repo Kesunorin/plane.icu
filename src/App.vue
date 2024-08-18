@@ -2,13 +2,21 @@
   <el-config-provider namespace="ep">
     <header class="navbar">
       <div class="navbar-wrapper">
-
         <div class="header-container">
-          <img src="./assets/menu.svg" class="menu" @click="openMenu">
+          <img src="./assets/menu.svg" class="menu" @click="openMenu" />
           <img src="./assets/logo.webp" class="logo" alt="Logo" />
-          <h3 color="$ep-color-primary" px="4">第一个mt之家</h3>
+          <span
+            color="$ep-color-primary"
+            px="2"
+            style="
+              display: flex;
+              align-items: center;
+              font-weight: bolder;
+              font-size: larger;
+            "
+            >第一个mt之家</span
+          >
         </div>
-
       </div>
     </header>
 
@@ -17,9 +25,15 @@
       <el-menu default-active="/" class="side-menu" router="true">
         <el-menu-item index="/"> <span>首页</span> </el-menu-item>
         <el-menu-item index="/raidTier"> <span>总力战档线</span> </el-menu-item>
-        <el-menu-item index="/eraidTier"> <span>大决战档线</span> </el-menu-item>
-        <el-menu-item index="/friendSearch"> <span>好友查询</span> </el-menu-item>
-        <el-menu-item index="/raidAnalysis"><span>总力战统计</span></el-menu-item>
+        <el-menu-item index="/eraidTier">
+          <span>大决战档线</span>
+        </el-menu-item>
+        <el-menu-item index="/friendSearch">
+          <span>好友查询</span>
+        </el-menu-item>
+        <el-menu-item index="/raidAnalysis"
+          ><span>总力战统计</span></el-menu-item
+        >
         <el-menu-item index="/about"> <span>关于</span> </el-menu-item>
       </el-menu>
     </div>
@@ -33,10 +47,8 @@
         </div>
       </el-scrollbar>
     </div>
-
   </el-config-provider>
 </template>
-
 
 <script lang="ts" setup>
 import { ref } from "vue";
@@ -49,13 +61,14 @@ function openMenu() {
 }
 </script>
 
-
 <style lang="scss">
 #app {
   text-align: center;
   color: var(--ep-text-color-primary);
-  background: linear-gradient(rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)),
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
     url("~/assets/background.webp");
   background-size: cover;
   background-attachment: fixed;
@@ -73,18 +86,21 @@ function openMenu() {
   bottom: 0;
   left: 0;
   background: #0009;
-  transition: opacity .5s;
+  transition: opacity 0.5s;
   z-index: 233;
 }
 
 .side {
   position: fixed;
   height: 100%;
-  transition: background-color .2s, opacity .25s, transform .5s cubic-bezier(.19, 1, .22, 1);
+  transition:
+    background-color 0.2s,
+    opacity 0.25s,
+    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   transform: translate(-100%);
   padding-top: var(--nav-height);
 
-  @media screen and (min-width:960px) {
+  @media screen and (min-width: 960px) {
     transform: translate(0);
   }
 
@@ -104,13 +120,14 @@ function openMenu() {
 .navbar {
   width: 100vw;
   position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
   z-index: 10;
   top: 0;
   left: 0;
 
   .navbar-wrapper {
     position: relative;
-    border-bottom: 1px solid #4c4d4f;
+    border-bottom: 1px solid #b1b1b1;
     padding: 0 12px 0 24px;
     background-size: 4px 4px;
     backdrop-filter: saturate(50%) blur(4px);
@@ -121,11 +138,10 @@ function openMenu() {
 
     .header-container {
       display: flex;
-
       .menu {
-        width: 45px;
+        width: 25px;
 
-        @media screen and (min-width:960px) {
+        @media screen and (min-width: 960px) {
           display: none;
         }
       }
@@ -134,8 +150,6 @@ function openMenu() {
         padding: 10px;
       }
     }
-
-
   }
 }
 
@@ -158,7 +172,7 @@ function openMenu() {
       flex: 1;
 
       .content-box {
-        width: calc(100vw - 300px);
+        width: 100%;
         background-color: rgba(255, 255, 255, 0.5);
         margin-top: 10px;
         margin-bottom: 10px;
@@ -169,9 +183,6 @@ function openMenu() {
         align-items: center;
       }
     }
-
   }
-
-
 }
 </style>
